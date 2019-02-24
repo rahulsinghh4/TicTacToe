@@ -1,0 +1,121 @@
+import random 
+
+def tic_tac_toe():
+    board = [None] + list(range(1, 10))
+    WIN_COMBINATIONS = [
+       (1, 2, 3),
+       (4, 5, 6),
+       (7, 8, 9),
+       (1, 4, 7),
+       (2, 5, 8),
+       (3, 6, 9),
+       (1, 5, 9),
+       (3, 5, 7),
+    ]
+
+    def draw():
+        print(board[7], board[8], board[9])
+        print(board[4], board[5], board[6])
+        print(board[1], board[2], board[3])
+        print()
+
+    def choose_number():
+        while True:
+            try:
+                a = int(input())
+                if a in board:
+                    return a
+                else:
+                    print("\nInvalid move or computer already chose value. Try again")
+            except ValueError:
+               print("\nThat's not a number. Try again")
+               
+    def input_player_letter():
+        letter = ''
+        while not(letter=='X' or letter=='O'):
+            print("Choose either X or O")
+            letter = input().upper()
+          #  print(letter)
+        return letter
+
+    def comp_letter():
+        #print('letter ' + letter)
+        if letter == 'X':
+            return 'O'
+        elif letter == 'O':
+            return 'X'
+
+    def whoGoesFirst():
+        if random.randint(0,1) == 0:
+            return 'computer'
+        else:
+            return 'player'
+
+    def is_game_over():
+        for a, b, c in WIN_COMBINATIONS:
+            if board[a] == board[b] == board[c] == letter:
+                print('Player ' + letter + ' wins!\n'.format(board[a]))
+                print("Congratulations!\n")
+                return True
+            elif board[a] == board[b] == board[c] == c_letter:
+                print("You lose :(".format(board[a]))
+                return True
+        if 9 == sum((pos == 'X' or pos == 'O') for pos in board):
+            print("The game ends in a tie\n")
+            return True
+    
+    print('Welcome to Tic Tac Toe!')
+    turn = whoGoesFirst()
+    print("The " + turn + " will go first")
+    letter = input_player_letter()
+   # print(letter)
+    #c_letter = comp_letter()
+    c_letter = comp_letter()
+   # print(comp_letter())
+    draw()
+    i=0
+    while i<10:
+        i = i + 1
+        #draw()
+        if is_game_over():
+            break
+        if whoGoesFirst() == 'player':     
+            print("Pick your move")
+            board[choose_number()] = letter
+            if is_game_over():
+                draw()
+                break
+           # draw()
+            z = random.randint(1,9)
+            if board[z] != 'X' and board[z] != 'O':    
+                board[z] = c_letter 
+               # print(123456)
+            else:
+                while board[z] == 'X' or board[z] == 'O':
+                    z = random.randint(1,9)
+                board[z] = c_letter
+               # print(654321)
+        elif whoGoesFirst() == 'computer':
+            z = random.randint(1,9)
+            if board[z] != 'X' and board[z] != 'O':    
+                board[z] = c_letter 
+              #  print(123456)
+            else:
+                while board[z] == 'X' or board[z] == 'O':
+                    z = random.randint(1,9)
+                board[z] = c_letter
+              #  print(654321)
+            if is_game_over():
+                draw()
+                break
+            print("Pick your move")
+            board[choose_number()] = letter
+        draw()
+            
+
+        print()
+
+while True:
+    tic_tac_toe()
+    if input("Play again (y/n)\n") != "y":
+        break
